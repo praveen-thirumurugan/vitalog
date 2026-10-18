@@ -7,7 +7,7 @@
     "name": "Avgeek, Inc."
   },
   "homepage": "https://vitalog.praveent.com/api-keys",
-  "repository": "https://github.com/avgeek-oss/vitalog",
+  "repository": "https://github.com/praveen-thirumurugan/vitalog",
   "keywords": ["health", "ledger", "observations"],
   "extensions": {
     "com.openai": {

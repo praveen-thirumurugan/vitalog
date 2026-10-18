@@ -186,7 +186,7 @@ for (const environment of Object.keys(root.environments)) {
     assert(image, "An image reference is required");
     const match = image.match(
       new RegExp(
-        `^ghcr\\.io/avgeek-oss/${repository}:(v[0-9]+\\.[0-9]+\\.[0-9]+)(@sha256:[0-9a-f]{64})?$`,
+        `^ghcr\\.io/(?:avgeek-oss|praveen-thirumurugan)/${repository}:(v[0-9]+\\.[0-9]+\\.[0-9]+)(@sha256:[0-9a-f]{64})?$`,
       ),
     );
     assert(

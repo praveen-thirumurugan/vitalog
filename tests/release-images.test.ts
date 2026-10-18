@@ -12,8 +12,29 @@ const manifest = {
 };
 
 describe("release image promotion contract", () => {
-  test("accepts the complete immutable release", () => {
-    expect(releaseImages.parse(manifest)).toEqual(manifest);
+  test.each(["avgeek-oss", "praveen-thirumurugan"])(
+    "accepts immutable releases published under %s",
+    (owner) => {
+      const candidate = {
+        ...manifest,
+        images: {
+          api: manifest.images.api.replace("avgeek-oss", owner),
+          web: manifest.images.web.replace("avgeek-oss", owner),
+        },
+      };
+      expect(releaseImages.parse(candidate)).toEqual(candidate);
+    },
+  );
+  test("rejects images from an unrelated registry owner", () => {
+    expect(
+      releaseImages.safeParse({
+        ...manifest,
+        images: {
+          ...manifest.images,
+          api: manifest.images.api.replace("avgeek-oss", "another-owner"),
+        },
+      }).success,
+    ).toBe(false);
   });
   test.each([
     { ...manifest, version: "latest" },

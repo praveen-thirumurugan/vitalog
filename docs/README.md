@@ -20,7 +20,7 @@ Markdown source guides and generated contract reports remain in this directory f
 
 ## Hosting
 
-The public site uses `https://www.vitalog.dev`, with `vitalog.dev` redirecting to the same content. Connect the GitHub repository `avgeek-oss/vitalog` in Mintlify, select `main`, and set the content directory to `docs`. Configure the custom hostname and apply the exact records shown by Mintlify. No UI or API workload is required in Towbar. See [custom domains](https://www.mintlify.com/docs/settings/custom-domain).
+The public site uses `https://www.vitalog.dev`, with `vitalog.dev` redirecting to the same content. Connect the GitHub repository `praveen-thirumurugan/vitalog` in Mintlify, select `main`, and set the content directory to `docs`. Configure the custom hostname and apply the exact records shown by Mintlify. No UI or API workload is required in Towbar. See [custom domains](https://www.mintlify.com/docs/settings/custom-domain).
 
 The web app's Documentation and MCP Guide links default to this public site. `DOCS_BASE_URL` optionally overrides the origin for a fork; declare the name in your web runtime secrets when using an override. This hostname is for documentation only, never a health API or sign-in endpoint.
 

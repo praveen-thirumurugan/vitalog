@@ -25,7 +25,7 @@ docker compose exec -T postgres pg_dump -U vitalog -d vitalog -Fc > vitalog.dump
 
 Restore into a separate database while the API is stopped or disconnected. Verify migrations/readiness, record history, goals and authentication metadata before switching the API to it. An older backup can restore revoked credentials or previously erased observations; review its age before permitting access or new writes.
 
-Operator exports and erasure commands are documented in the [repository README](https://github.com/avgeek-oss/vitalog#export-backups-and-erasure). Voiding a record retains history and removes it from effective calculations. Permanent erasure is a separate operator action.
+Operator exports and erasure commands are documented in the [repository README](https://github.com/praveen-thirumurugan/vitalog#export-backups-and-erasure). Voiding a record retains history and removes it from effective calculations. Permanent erasure is a separate operator action.
 
 ## Credential boundaries
 

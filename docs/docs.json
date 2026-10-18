@@ -107,7 +107,7 @@
     "links": [
       {
         "type": "github",
-        "href": "https://github.com/avgeek-oss/vitalog"
+        "href": "https://github.com/praveen-thirumurugan/vitalog"
       }
     ],
     "primary": {
@@ -118,7 +118,7 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/avgeek-oss/vitalog"
+      "github": "https://github.com/praveen-thirumurugan/vitalog"
     },
     "links": [
       {
@@ -155,11 +155,11 @@
           },
           {
             "label": "Source code",
-            "href": "https://github.com/avgeek-oss/vitalog"
+            "href": "https://github.com/praveen-thirumurugan/vitalog"
           },
           {
             "label": "Report an issue",
-            "href": "https://github.com/avgeek-oss/vitalog/issues"
+            "href": "https://github.com/praveen-thirumurugan/vitalog/issues"
           }
         ]
       },

@@ -3,13 +3,15 @@ title: "Deploy with Towbar"
 description: "Run PostgreSQL, the API and the web app on your own server."
 ---
 
-Run Vitalog as three workloads: PostgreSQL, the Hono API and the Next.js web app. The checked-in [Towbar environment](https://github.com/avgeek-oss/vitalog/blob/main/towbar.yml), [datastore](https://github.com/avgeek-oss/vitalog/blob/main/.towbar/datastores/vitalog-postgres.datastore.yml), [API](https://github.com/avgeek-oss/vitalog/blob/main/.towbar/services/vitalog.service.yml) and [web](https://github.com/avgeek-oss/vitalog/blob/main/.towbar/services/vitalog-web.service.yml) manifests show the architecture. They contain deployment-specific server IDs and domains: customize them for your workspace before syncing. The origins below are this installation's planned hosts; DNS and deployment must be verified separately.
+Run Vitalog as three workloads: PostgreSQL, the Hono API and the Next.js web app. The checked-in [Towbar environment](https://github.com/praveen-thirumurugan/vitalog/blob/main/towbar.yml), [datastore](https://github.com/praveen-thirumurugan/vitalog/blob/main/.towbar/datastores/vitalog-postgres.datastore.yml), [API](https://github.com/praveen-thirumurugan/vitalog/blob/main/.towbar/services/vitalog.service.yml) and [web](https://github.com/praveen-thirumurugan/vitalog/blob/main/.towbar/services/vitalog-web.service.yml) manifests show the architecture. They contain deployment-specific server IDs and domains: customize them for your workspace before syncing. The origins below are this installation's planned hosts; DNS and deployment must be verified separately.
 
 ## Prepare your workspace
 
 Connect your fork or checkout to Towbar and select a server you control. Replace the server references, service domains and any workspace-specific IDs in the manifests. Keep the API and UI on separate HTTPS origins. This installation uses `https://vitalog-api.praveent.com` and `https://vitalog.praveent.com`. Keep PostgreSQL on the private workload network.
 
 The API and web manifests use `deployment.type: image` with versioned images from `ghcr.io/avgeek-oss/vitalog-api` and `ghcr.io/avgeek-oss/vitalog-web`. Towbar pulls the published images; it does not build the source on your server. The checked-in v1.0.4 references are candidates pending publication. Before syncing or deploying, replace each tag-only reference with the verified immutable SHA-256 digest from the published v1.0.4 release; keep API and web on the same release version. Runtime resources remain bounded independently of PostgreSQL.
+
+Future releases publish to `ghcr.io/praveen-thirumurugan/vitalog-api` and `ghcr.io/praveen-thirumurugan/vitalog-web`. Existing images under `avgeek-oss` remain available; keep their references when moving the repository without upgrading Vitalog.
 
 Both services use a recreate rollout with a maintenance window. Towbar stops the previous container before starting its replacement, so upgrades do not require an extra CPU reservation for an overlapping candidate. The service is briefly unavailable while its replacement starts and passes readiness checks. On a host with enough spare CPU and memory, the stateless web service can instead use a rolling rollout.
 
@@ -23,7 +25,7 @@ If a new GHCR package is private, make it public and rerun the failed manifest j
 
 ## Choose a release
 
-Publish and verify both images before updating the service manifests. Use the release tag plus its registry digest, for example `ghcr.io/avgeek-oss/vitalog-api:vX.Y.Z@sha256:<published-digest>`, and the corresponding web image from the same release. Do not use `latest` or overwrite a published release tag.
+Publish and verify both images before updating the service manifests. Use the release tag plus its registry digest, for example `ghcr.io/praveen-thirumurugan/vitalog-api:vX.Y.Z@sha256:<published-digest>`, and the corresponding web image from the same release. Do not use `latest` or overwrite a published release tag.
 
 For upgrades, change both image references, sync the repository, then deploy the API before the web app. Runtime secrets and public origins remain installation settings. A new tag or image publication alone does not deploy a running installation.
 
