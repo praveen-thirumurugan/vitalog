@@ -1,6 +1,6 @@
 # Vitalog Mintlify site
 
-This directory is the Mintlify monorepo content root. It follows Towbar and Mill's `mint` theme, navigation dropdowns, local brand assets and light/dark appearance. It is a documentation service, separate from the Next.js app and health API.
+This directory is the Mintlify monorepo content root. It uses the `mint` theme, navigation dropdowns, local brand assets and light/dark appearance. It is a documentation service, separate from the Next.js app and health API.
 
 From the repository root:
 
@@ -14,13 +14,13 @@ The preview runs at http://localhost:4175. The Mint CLI is pinned in package scr
 
 Edit `site.json` for branding and navigation. The pinned `@avgeek-oss/mintlify-docs` package generates `docs.json`, `oss-docs.css`, `oss-docs.js` and `snippets/oss/`; commit these generated outputs and never hand-edit them.
 
-Edit `index.mdx`, `concepts.mdx`, `logging.mdx`, `contributing.mdx`, `quickstart.mdx`, `mcp-guide.mdx`, `installation.mdx`, `configuration.mdx`, `operations.mdx` and `troubleshooting.mdx` directly. The generator creates the dashboard, record, goal, API-key, OAuth and Towbar guides from their source documents in `docs/`, along with `mcp-tools.mdx`, `openapi.json` and brand assets. `npm run docs:check` detects stale output. Run `npm run docs:generate` and commit both the source and generated files after a contract change.
+Edit `index.mdx`, `concepts.mdx`, `logging.mdx`, `contributing.mdx`, `quickstart.mdx`, `mcp-guide.mdx`, `installation.mdx`, `configuration.mdx`, `operations.mdx` and `troubleshooting.mdx` directly. The generator creates the dashboard, record, goal, API-key, OAuth and container-release guides from their source documents in `docs/`, along with `mcp-tools.mdx`, `openapi.json` and brand assets. `npm run docs:check` detects stale output. Run `npm run docs:generate` and commit both the source and generated files after a contract change.
 
 Markdown source guides and generated contract reports remain in this directory for repository contributors. `.mintignore` excludes them from publishing; visitors see only the public MDX guides and the API reference.
 
 ## Hosting
 
-The public site uses `https://www.vitalog.dev`, with `vitalog.dev` redirecting to the same content. Connect the GitHub repository `praveen-thirumurugan/vitalog` in Mintlify, select `main`, and set the content directory to `docs`. Configure the custom hostname and apply the exact records shown by Mintlify. No UI or API workload is required in Towbar. See [custom domains](https://www.mintlify.com/docs/settings/custom-domain).
+The public site uses `https://www.vitalog.dev`, with `vitalog.dev` redirecting to the same content. Connect the GitHub repository `praveen-thirumurugan/vitalog` in Mintlify, select `main`, and set the content directory to `docs`. Configure the custom hostname and apply the exact records shown by Mintlify. Documentation hosting is separate from the API and web application. See [custom domains](https://www.mintlify.com/docs/settings/custom-domain).
 
 The web app's Documentation and MCP Guide links default to this public site. `DOCS_BASE_URL` optionally overrides the origin for a fork; declare the name in your web runtime secrets when using an override. This hostname is for documentation only, never a health API or sign-in endpoint.
 

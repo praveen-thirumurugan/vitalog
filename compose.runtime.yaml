@@ -1,0 +1,48 @@
+# Resource-limited application smoke-test profile, layered on compose.yaml.
+services:
+  api:
+    mem_limit: 512m
+    cpus: 0.5
+    environment:
+      DATABASE_URL: postgresql://vitalog:${POSTGRES_PASSWORD}@vitalog-postgres:5432/vitalog
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - >-
+          const request = require('node:http').get('http://127.0.0.1:3000/readyz', {
+            headers: {
+              Authorization: 'Bearer ' + process.env.AUTH_KEY,
+              Host: new URL(process.env.PUBLIC_BASE_URL).host
+            }
+          }, response => {
+            response.resume();
+            process.exit(response.statusCode === 200 ? 0 : 1);
+          });
+          request.on('error', () => process.exit(1));
+          request.setTimeout(5000, () => { request.destroy(); process.exit(1); });
+      interval: 5s
+      timeout: 6s
+      retries: 10
+      start_period: 10s
+  web:
+    mem_limit: 256m
+    cpus: 0.5
+  postgres:
+    image: postgres:17.11-bookworm@sha256:639ab7ceb90e13123085b741fb31ef493fba25463002f6da665352e7b534b652
+    mem_limit: 256m
+    cpus: 0.5
+    command:
+      - postgres
+      - -c
+      - shared_buffers=64MB
+      - -c
+      - max_connections=30
+      - -c
+      - work_mem=4MB
+      - -c
+      - maintenance_work_mem=32MB
+    networks:
+      default:
+        aliases: [vitalog-postgres]

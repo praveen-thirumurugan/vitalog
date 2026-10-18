@@ -26,9 +26,9 @@ Request rate limits use the immediate socket peer address, including when an ing
 
 `GET /healthz` returns minimal unauthenticated liveness. `GET /readyz` requires the key and checks the migrated database without returning connection details. Missing credentials, a placeholder secret, invalid configuration or unapplied migrations prevent startup. All health responses use `Cache-Control: no-store`.
 
-## Run with Towbar
+## Deployment
 
-For deployment with Towbar and a managed PostgreSQL datastore, follow [the Towbar deployment guide](docs/towbar-deployment.md). The version-2 manifests deploy the API and web app from versioned, digest-pinned release images, alongside a managed PostgreSQL datastore. They declare two HTTPS domains and the private database network; runtime credentials are supplied in Towbar.
+Run the API, web app and PostgreSQL with Docker Compose. [Container releases](docs/releases.md) explains how to use verified published images. Installation-specific deployment manifests are maintained separately from the application source.
 
 ## Run from source
 
@@ -76,7 +76,7 @@ Start discovery with authenticated `GET /v1/catalog` or `health_get_catalog({})`
 
 The [integration guide](docs/integration.md) describes REST/MCP mappings, filtering, dates, provenance, result variants, summaries and retries. The [goals guide](docs/goals.md) covers weight targets, daily nutrition limits, water and exercise targets, and observed progress. [OpenAPI JSON](contracts/openapi.json), [complete record schemas](docs/record-schemas.json) and [executable examples](docs/examples.json) are generated from the shared definitions.
 
-[Postman instructions](postman/README.md) cover the Native Git workspace layout used by Towbar and the importable v2.1 JSON collection. The collection contains 84 requests across REST, technical endpoints, MCP initialization, tool discovery, all 27 tools, API-key generation/administration, OAuth, browser sessions and UI key management. Secret values are blank in the repository.
+[Postman instructions](postman/README.md) cover the Native Git workspace layout and the importable v2.1 JSON collection. The collection contains 84 requests across REST, technical endpoints, MCP initialization, tool discovery, all 27 tools, API-key generation/administration, OAuth, browser sessions and UI key management. Secret values are blank in the repository.
 
 Run `npm run plugin:package` to build `dist/vitalog-plugin.zip` for ChatGPT upload. The [plugin guide](docs/chatgpt-plugin.md) covers deployment and direct root sign-in through OAuth. The connection expires after 30 days and is revoked through the same API-key management APIs. The archive includes the [Vitalog mark](docs/branding.md) and contains no credentials.
 
@@ -93,7 +93,7 @@ npm run test:summaries
 npm run test:goals
 npm run test:attachments
 npm run test:container
-npm run test:towbar
+npm run test:runtime
 npm run build
 npm audit --omit=dev --audit-level=moderate
 ```
