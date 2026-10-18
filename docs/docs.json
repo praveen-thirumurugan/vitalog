@@ -93,7 +93,7 @@
         "groups": [
           {
             "group": "Install and configure",
-            "pages": ["installation", "configuration", "towbar"]
+            "pages": ["installation", "configuration", "releases"]
           },
           {
             "group": "Operate Vitalog",
@@ -166,10 +166,6 @@
       {
         "header": "Other OSS Apps",
         "items": [
-          {
-            "label": "Towbar · Deploy your apps",
-            "href": "https://www.towbar.dev"
-          },
           {
             "label": "All OSS projects",
             "href": "https://github.com/avgeek-oss/.github/blob/main/profile/README.md#whats-in-the-list"

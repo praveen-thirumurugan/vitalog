@@ -37,7 +37,7 @@ Operator exports and erasure commands are documented in the [repository README](
 
 Tokens are opaque and stored as hashes. They are checked for expiry and revocation on authenticated requests. Revoke a compromised credential immediately; rotating root sign-in credentials alone does not revoke already issued tokens.
 
-Serve public services through HTTPS, restrict accepted hosts/origins, and keep PostgreSQL private. The production containers run as non-root with health checks and bounded resources. See [Towbar deployment](/towbar) for workload limits and required runtime secrets.
+Serve public services through HTTPS, restrict accepted hosts/origins, and keep PostgreSQL private. The production containers run as non-root with health checks and bounded resources. See [Container releases](/releases) for verified images and runtime requirements.
 
 ## File storage
 

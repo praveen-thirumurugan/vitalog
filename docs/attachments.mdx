@@ -113,7 +113,7 @@ Storage is optional. Without `S3_BUCKET`, the ledger still runs and upload/compl
 | `S3_FORCE_PATH_STYLE`                      | `true`/`false`; defaults to true for custom endpoints and false for AWS              |
 | `S3_PREFIX`                                | Dedicated namespace, default `vitalog`; safe segments, no trailing slash             |
 
-Compose forwards these optional variables from `.env`. For Towbar, supply them as API runtime secrets and add the enabled names to `.towbar/services/vitalog.service.yml`'s `secrets.runtime` list before deploying your storage-enabled installation. The default manifest stays usable without storage. Declare the bucket and credential variables plus custom endpoint, region or prefix values needed by the provider.
+Compose forwards these optional variables from `.env`. On other platforms, supply the enabled API runtime variables through the platform's secret store. Declare the bucket and credential variables plus custom endpoint, region or prefix values required by the storage provider.
 
 Provision the bucket separately with public access disabled. Scope object GET/PUT/DELETE and prefix LIST permissions to this ledger's namespace. Keep S3/ingress logs free of signed query strings. Configure a lifecycle rule to expire `<S3_PREFIX>/uploads/` after one day; never apply it to `objects/`. Browser bucket CORS should permit intended origins and PUT/GET with Content-Type/Content-Length. Signed URLs use the S3 API endpoint, not a bucket website/custom-domain endpoint.
 

@@ -1,6 +1,6 @@
 # Postman
 
-Vitalog keeps API documentation in the repository. `collections/Vitalog API` and `environments/Vitalog.environment.yaml` use Postman's Native Git layout, matching Towbar's repository approach. `Vitalog.postman_collection.json` and `Vitalog.postman_environment.json` can also be imported into a regular Postman workspace.
+Vitalog keeps API documentation in the repository. `collections/Vitalog API` and `environments/Vitalog.environment.yaml` use Postman's Native Git layout. `Vitalog.postman_collection.json` and `Vitalog.postman_environment.json` can also be imported into a regular Postman workspace.
 
 Select the Vitalog environment and set `baseUrl` to the service origin, without `/v1`. Enter `authKey` as a private local secret value. REST requests inherit their Bearer authentication from that variable. MCP requests use `oauthAccessToken` separately and never inherit the REST key. Never put the key in request bodies, URL parameters, exported environments or shared variable values.
 

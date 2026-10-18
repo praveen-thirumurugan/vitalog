@@ -8,7 +8,7 @@ The application, documentation and plugin use identical 256 px mark and 64 px fa
 
 The Next.js app serves PNGs from `apps/web/public/brand` at `/brand/`. The plugin package uses identical copies. The page's CSP permits local images and framework data images; external images remain blocked.
 
-The light accent changed from `oklch(0.25 0.015 160)` to `oklch(0.55 0.21 25)`, with `oklch(0.99 0 0)` foreground: a warm red with readable light text. The dark accent changed from `oklch(0.85 0.02 160)` to `oklch(0.75 0.14 25)`, with dark foreground `oklch(0.18 0.01 25)`: a lighter red that remains distinct on dark surfaces. The accent/foreground pairs have WCAG contrast ratios of 5.26:1 in light mode and 7.99:1 in dark mode, calculated from the sRGB luminance of the OKLCH tokens. Both remain inside sRGB. The focus ring follows the accent. Neutral page/card surfaces preserve the Towbar and Mill hierarchy.
+The light accent changed from `oklch(0.25 0.015 160)` to `oklch(0.55 0.21 25)`, with `oklch(0.99 0 0)` foreground: a warm red with readable light text. The dark accent changed from `oklch(0.85 0.02 160)` to `oklch(0.75 0.14 25)`, with dark foreground `oklch(0.18 0.01 25)`: a lighter red that remains distinct on dark surfaces. The accent/foreground pairs have WCAG contrast ratios of 5.26:1 in light mode and 7.99:1 in dark mode, calculated from the sRGB luminance of the OKLCH tokens. Both remain inside sRGB. The focus ring follows the accent. Neutral page/card surfaces preserve the shared design system hierarchy.
 
 ## Export from Sketch
 

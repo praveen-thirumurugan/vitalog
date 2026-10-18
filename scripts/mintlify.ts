@@ -57,9 +57,9 @@ const pages = [
     "Weight baselines, nutrition limits, water and exercise targets.",
   ],
   [
-    "towbar-deployment",
-    "towbar",
-    "Deploy with Towbar",
+    "releases",
+    "releases",
+    "Container releases",
     "Run PostgreSQL, the API and the web app on your own server.",
   ],
 ] as const;

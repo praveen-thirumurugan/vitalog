@@ -33,9 +33,7 @@
     "test:public-api": "tsx scripts/public-api-verification.ts",
     "preview:web": "npm run build:web && tsx scripts/web-verification.ts --preview",
     "test:container": "tsx scripts/container-smoke.ts",
-    "test:towbar": "tsx scripts/container-smoke.ts --towbar",
-    "towbar:check": "tsx scripts/validate-towbar.ts",
-    "verify": "npm run typecheck && npm run build:web && npm run test && npm run docs:check && npm run towbar:check && npm run plugin:package && npm run format:check",
+    "verify": "npm run typecheck && npm run build:web && npm run test && npm run docs:check && npm run plugin:package && npm run format:check",
     "operator:export": "node --env-file-if-exists=.env --import tsx scripts/export.ts",
     "operator:erase": "node --env-file-if-exists=.env --import tsx scripts/erase.ts",
     "build:api": "tsc --noCheck -p tsconfig.build.json",
@@ -45,7 +43,8 @@
     "docs:dev": "npm run docs:generate && cd docs && npx --yes mint@4.2.986 dev --port 4175",
     "test:attachments": "tsx scripts/attachments-verification.ts",
     "operator:attachments:prune": "node --env-file-if-exists=.env --import tsx scripts/attachments-prune.ts",
-    "docs:screenshots": "tsx scripts/capture-docs-screenshots.ts"
+    "docs:screenshots": "tsx scripts/capture-docs-screenshots.ts",
+    "test:runtime": "tsx scripts/container-smoke.ts --runtime-profile"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.1146.0",

@@ -8,7 +8,7 @@
 
 ## Unreleased
 
-- Deploy the API and web app through Towbar using published release images pinned by digest, without source builds on the production server.
+- Deploy the API and web app from published release images pinned by digest, without source builds on the production server.
 
 ## 1.0.2
 

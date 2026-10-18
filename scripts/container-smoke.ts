@@ -1,92 +1,40 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { randomBytes } from "node:crypto";
-import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import { get } from "node:http";
-import { resolve } from "node:path";
-import { parse, stringify } from "yaml";
+import { parse } from "yaml";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import { object } from "../src/domain/types.js";
 import { readReleaseImages } from "./release-images.js";
 import { authorizeMcpFixture } from "./mcp-fixture.js";
 
-const towbar = process.argv.includes("--towbar");
 const releaseIndex = process.argv.indexOf("--release-images");
 const release =
   releaseIndex >= 0
     ? await readReleaseImages(process.argv[releaseIndex + 1]!)
     : undefined;
-assert(
-  !release || towbar,
-  "Published images must use the Towbar runtime profile",
-);
-type RuntimeManifest = {
+const runtimeProfile =
+  process.argv.includes("--runtime-profile") || Boolean(release);
+type RuntimeService = {
   image?: string;
-  container: {
-    networkAlias?: string;
-    command?: string[];
-    resources: { cpus: number; memory: string };
-  };
-  domains?: { primary: string };
-  health?: { command: string[] };
+  mem_limit: string;
+  cpus: number;
+  healthcheck?: { test: string[] };
 };
-let service: RuntimeManifest | undefined;
-let datastore: RuntimeManifest | undefined;
-let web: RuntimeManifest | undefined;
-let override: string | undefined;
-if (towbar) {
-  await import("./validate-towbar.js");
-  service = parse(
-    await readFile(".towbar/services/vitalog.service.yml", "utf8"),
-  ) as RuntimeManifest;
-  datastore = parse(
-    await readFile(".towbar/datastores/vitalog-postgres.datastore.yml", "utf8"),
-  ) as RuntimeManifest;
-  assert(datastore.container.networkAlias);
-  web = parse(
-    await readFile(".towbar/services/vitalog-web.service.yml", "utf8"),
-  ) as RuntimeManifest;
-  await mkdir(".test-artifacts", { recursive: true });
-  override = resolve(`.test-artifacts/towbar-compose-${process.pid}.yaml`);
-  await writeFile(
-    override,
-    stringify({
+const profile = runtimeProfile
+  ? (parse(await readFile("compose.runtime.yaml", "utf8")) as {
       services: {
-        web: {
-          mem_limit: web.container.resources.memory,
-          cpus: web.container.resources.cpus,
-        },
-        api: {
-          build: { context: resolve(".") },
-          mem_limit: service.container.resources.memory,
-          cpus: service.container.resources.cpus,
-          environment: {
-            DATABASE_URL: `postgresql://vitalog:\${POSTGRES_PASSWORD}@${datastore.container.networkAlias}:5432/vitalog`,
-          },
-          healthcheck: {
-            test: ["CMD", ...service.health!.command],
-            interval: "5s",
-            timeout: "6s",
-            retries: 10,
-            start_period: "10s",
-          },
-        },
-        postgres: {
-          image: datastore.image,
-          mem_limit: datastore.container.resources.memory,
-          cpus: datastore.container.resources.cpus,
-          command: datastore.container.command,
-          networks: {
-            default: { aliases: [datastore.container.networkAlias] },
-          },
-        },
-      },
-    }),
-  );
-}
-const project = `vitalog-${towbar ? "towbar" : "smoke"}-${process.pid}`;
+        api: RuntimeService;
+        web: RuntimeService;
+        postgres: RuntimeService;
+      };
+    })
+  : undefined;
+const readinessCommand = profile?.services.api.healthcheck?.test.slice(1);
+const project = `vitalog-${runtimeProfile ? "runtime" : "smoke"}-${process.pid}`;
 const key = randomBytes(32).toString("base64url");
 const reservation = createServer();
 await new Promise<void>((resolve, reject) => {
@@ -140,7 +88,7 @@ const compose = (args: string[]) =>
     project,
     "--file",
     "compose.yaml",
-    ...(override ? ["--file", override] : []),
+    ...(runtimeProfile ? ["--file", "compose.runtime.yaml"] : []),
     ...args,
   ]);
 let client: Client | undefined;
@@ -389,11 +337,11 @@ try {
   assert.equal(compose(["exec", "--no-TTY", "api", "id", "-u"]), "1000");
   const containerId = compose(["ps", "--quiet", "api"]);
   const profileChecks: string[] = [];
-  if (service && datastore) {
+  if (profile && readinessCommand) {
     for (const [name, manifest] of [
-      ["api", service],
-      ["postgres", datastore],
-      ["web", web!],
+      ["api", profile.services.api],
+      ["postgres", profile.services.postgres],
+      ["web", profile.services.web],
     ] as const) {
       const settings = JSON.parse(
         docker([
@@ -403,16 +351,13 @@ try {
           compose(["ps", "--quiet", name]),
         ]),
       );
-      const match = /^(\d+)([mg])$/.exec(manifest.container.resources.memory);
+      const match = /^(\d+)([mg])$/.exec(manifest.mem_limit);
       assert(match);
       assert.equal(
         settings.Memory,
         Number(match[1]) * (match[2] === "g" ? 1024 ** 3 : 1024 ** 2),
       );
-      assert.equal(
-        settings.NanoCpus,
-        manifest.container.resources.cpus * 1_000_000_000,
-      );
+      assert.equal(settings.NanoCpus, manifest.cpus * 1_000_000_000);
     }
     assert.equal(
       compose([
@@ -444,9 +389,9 @@ try {
       ]),
       "30",
     );
-    compose(["exec", "--no-TTY", "api", ...service.health!.command]);
+    compose(["exec", "--no-TTY", "api", ...readinessCommand]);
     profileChecks.push(
-      "manifest runtime CPU/memory limits",
+      "runtime CPU/memory limits",
       "tuned PostgreSQL settings",
       "authenticated readiness uses the configured public Host header",
       "private PostgreSQL network alias",
@@ -523,10 +468,10 @@ try {
   assert(!logs.includes(key));
   assert(!logs.includes(mcpToken));
   assert(!logs.includes("energy_kcal"));
-  if (service) {
+  if (readinessCommand) {
     compose(["stop", "postgres"]);
     assert.throws(
-      () => compose(["exec", "--no-TTY", "api", ...service.health!.command]),
+      () => compose(["exec", "--no-TTY", "api", ...readinessCommand]),
       (error: unknown) => object(error).status === 1,
     );
     compose(["start", "postgres"]);
@@ -538,7 +483,7 @@ try {
       "--wait-timeout",
       "90",
     ]);
-    compose(["exec", "--no-TTY", "api", ...service.health!.command]);
+    compose(["exec", "--no-TTY", "api", ...readinessCommand]);
     assert.equal(count(), "1");
     profileChecks.push(
       "readiness fails while PostgreSQL is unavailable",
@@ -549,12 +494,13 @@ try {
     ...(release ? { release } : {}),
     tested_at: new Date().toISOString(),
     mode: release
-      ? "published_images_with_towbar_runtime_settings"
-      : towbar
-        ? "local_compose_with_towbar_manifest_runtime_settings"
+      ? "published_images_with_runtime_settings"
+      : runtimeProfile
+        ? "local_compose_with_runtime_settings"
         : "docker_compose",
     image: env.VITALOG_IMAGE,
-    postgres_image: datastore?.image ?? "postgres:17.11-bookworm",
+    postgres_image:
+      profile?.services.postgres.image ?? "postgres:17.11-bookworm",
     checks: [
       "fresh Compose API/UI/database startup and automatic migrations",
       "independent Next.js pages, nonce CSP and trusted browser origin",
@@ -578,14 +524,15 @@ try {
   };
   await mkdir(".test-artifacts", { recursive: true });
   await writeFile(
-    towbar ? ".test-artifacts/towbar.json" : ".test-artifacts/container.json",
+    runtimeProfile
+      ? ".test-artifacts/runtime.json"
+      : ".test-artifacts/container.json",
     JSON.stringify(report, null, 2) + "\n",
   );
   process.stdout.write(
-    `PASS ${report.checks.length} ${towbar ? "Towbar profile" : "Compose/container"} checks\n`,
+    `PASS ${report.checks.length} ${runtimeProfile ? "Runtime profile" : "Compose/container"} checks\n`,
   );
 } finally {
   await client?.close();
   compose(["down", "--volumes", "--remove-orphans"]);
-  if (override) await rm(override, { force: true });
 }
