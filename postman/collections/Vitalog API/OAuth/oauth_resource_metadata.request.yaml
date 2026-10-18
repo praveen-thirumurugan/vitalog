@@ -3,7 +3,7 @@ id: 34ad4b7e-f4b6-561e-8eb6-ab2988783bc6
 method: GET
 url: "{{baseUrl}}/.well-known/oauth-protected-resource"
 description: MCP OAuth authorization with CIMD, pre-registered clients and
-  dynamic registration; see docs/oauth.md. Enabled with a canonical public
+  dynamic registration; see docs/oauth.mdx. Enabled with a canonical public
   issuer. Public metadata contains no health records or credentials.
 headers:
   Accept: application/json

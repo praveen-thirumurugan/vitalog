@@ -47,7 +47,7 @@ const shared = {
   tags: ["OAuth"],
   security: [],
   description:
-    "MCP OAuth authorization with CIMD, pre-registered clients and dynamic registration; see docs/oauth.md. Enabled with a canonical public issuer. Public metadata contains no health records or credentials.",
+    "MCP OAuth authorization with CIMD, pre-registered clients and dynamic registration; see docs/oauth.mdx. Enabled with a canonical public issuer. Public metadata contains no health records or credentials.",
 };
 const requestModel = {
   ...jsonSchema(authorization),

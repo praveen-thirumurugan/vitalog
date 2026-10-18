@@ -14,9 +14,9 @@ The preview runs at http://localhost:4175. The Mint CLI is pinned in package scr
 
 Edit `site.json` for branding and navigation. The pinned `@avgeek-oss/mintlify-docs` package generates `docs.json`, `oss-docs.css`, `oss-docs.js` and `snippets/oss/`; commit these generated outputs and never hand-edit them.
 
-Edit `index.mdx`, `concepts.mdx`, `logging.mdx`, `contributing.mdx`, `quickstart.mdx`, `mcp-guide.mdx`, `installation.mdx`, `configuration.mdx`, `operations.mdx` and `troubleshooting.mdx` directly. The generator creates the dashboard, record, goal, API-key, OAuth and container-release guides from their source documents in `docs/`, along with `mcp-tools.mdx`, `openapi.json` and brand assets. `npm run docs:check` detects stale output. Run `npm run docs:generate` and commit both the source and generated files after a contract change.
+Edit public guides directly in their `.mdx` files. Each guide has one source, with no Markdown copy. `scripts/mintlify.ts` generates only `mcp-tools.mdx`, `openapi.json` and brand assets from the application registry and assets.
 
-Markdown source guides and generated contract reports remain in this directory for repository contributors. `.mintignore` excludes them from publishing; visitors see only the public MDX guides and the API reference.
+After changing a contract, run `npm run docs:generate` and commit the generated artifacts. `npm run docs:check` detects stale output. `.mintignore` keeps repository maintenance notes, the specification and verification reports out of the public site.
 
 ## Hosting
 

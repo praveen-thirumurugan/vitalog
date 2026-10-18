@@ -6,7 +6,7 @@ url: "{{baseUrl}}/oauth/authorize?response_type=code&client_id={{oauthClientId}\
   tate}}&scope=health%3Aread%20health%3Awrite&code_challenge={{oauthChallenge}}\
   &code_challenge_method=S256"
 description: MCP OAuth authorization with CIMD, pre-registered clients and
-  dynamic registration; see docs/oauth.md. Enabled with a canonical public
+  dynamic registration; see docs/oauth.mdx. Enabled with a canonical public
   issuer. Public metadata contains no health records or credentials.
 headers:
   Accept: text/html
