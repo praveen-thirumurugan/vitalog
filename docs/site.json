@@ -84,7 +84,7 @@
           },
           {
             "group": "Operate Vitalog",
-            "pages": ["operations", "troubleshooting", "contributing"]
+            "pages": ["operations", "troubleshooting"]
           }
         ]
       }

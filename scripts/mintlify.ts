@@ -1,6 +1,6 @@
 import { readFile, mkdir, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
-import { dirname, posix } from "node:path";
+import { dirname } from "node:path";
 import { format } from "prettier";
 import { openapi } from "../src/openapi.js";
 import { operations } from "../src/registry/operations.js";
@@ -18,75 +18,6 @@ async function save(path: string, contents: string | Buffer) {
     await mkdir(dirname(path), { recursive: true });
     await writeFile(path, contents);
   }
-}
-const pages = [
-  [
-    "attachments",
-    "attachments",
-    "Reusable attachments",
-    "Upload private images and PDFs once and reuse them across health records.",
-  ],
-  [
-    "web",
-    "dashboard",
-    "Daily View and Weight Management",
-    "View daily nutrition, mood, water, exercise and weight history.",
-  ],
-  [
-    "api-keys",
-    "api-keys",
-    "API keys",
-    "Create a personal API key with explicit permissions and expiry, and manage keys and MCP connections.",
-  ],
-  [
-    "oauth",
-    "oauth",
-    "MCP OAuth",
-    "Discovery, client identity, consent and authorization-code exchange.",
-  ],
-  [
-    "integration",
-    "records",
-    "Record contracts",
-    "Log observations, discover schemas, read summaries and correct records.",
-  ],
-  [
-    "goals",
-    "goals",
-    "Goals and progress",
-    "Weight baselines, nutrition limits, water and exercise targets.",
-  ],
-  [
-    "releases",
-    "releases",
-    "Container releases",
-    "Run PostgreSQL, the API and the web app on your own server.",
-  ],
-] as const;
-const routes = new Map(pages.map(([file, route]) => [`${file}.md`, route]));
-for (const [file, route, title, description] of pages) {
-  let body = (await readFile(`docs/${file}.md`, "utf8")).replace(
-    /^# .+\n\n/,
-    "",
-  );
-  body = body.replace(
-    /\]\(([^)\s#]+)(#[^)]+)?\)/g,
-    (match, target: string, anchor = "") => {
-      if (/^(https?:|mailto:|#)/.test(target)) return match;
-      const normalized = target.replace(/^\.\//, "").replace(/^docs\//, "");
-      const siteRoute = routes.get(normalized);
-      return siteRoute
-        ? `](/${siteRoute}${anchor})`
-        : `](https://github.com/praveen-thirumurugan/vitalog/blob/main/${posix.normalize(target.startsWith("docs/") || target.startsWith("apps/") || target.startsWith("scripts/") ? target : `docs/${normalized}`)}${anchor})`;
-    },
-  );
-  await save(
-    `docs/${route}.mdx`,
-    await format(
-      `---\ntitle: ${JSON.stringify(title)}\ndescription: ${JSON.stringify(description)}\n---\n\n${body}`,
-      { parser: "mdx" },
-    ),
-  );
 }
 for (const asset of ["vitalog-mark.png", "vitalog-favicon.png"]) {
   await save(
@@ -221,5 +152,5 @@ await save(
 console.log(
   check
     ? "Mintlify generated artifacts are current."
-    : "Mintlify guides, tools, OpenAPI and brand assets generated.",
+    : "Mintlify tools, OpenAPI and brand assets generated.",
 );

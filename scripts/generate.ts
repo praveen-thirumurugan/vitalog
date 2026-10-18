@@ -770,7 +770,7 @@ await save(
       schema:
         "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
       description:
-        "Generated REST and MCP contracts. Synthetic examples; configure the private authKey locally. See postman/README.md.",
+        "Generated REST and MCP contracts. Synthetic examples; configure the private authKey locally.",
     },
     auth,
     variable: [

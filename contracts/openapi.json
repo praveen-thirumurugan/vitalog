@@ -237278,7 +237278,7 @@
           "OAuth"
         ],
         "security": [],
-        "description": "MCP OAuth authorization with CIMD, pre-registered clients and dynamic registration; see docs/oauth.md. Enabled with a canonical public issuer. Public metadata contains no health records or credentials.",
+        "description": "MCP OAuth authorization with CIMD, pre-registered clients and dynamic registration; see docs/oauth.mdx. Enabled with a canonical public issuer. Public metadata contains no health records or credentials.",
         "operationId": "oauth_resource_metadata",
         "summary": "Discover the protected MCP resource",
         "responses": {
@@ -237336,7 +237336,7 @@
           "OAuth"
         ],
         "security": [],
-        "description": "MCP OAuth authorization with CIMD, pre-registered clients and dynamic registration; see docs/oauth.md. Enabled with a canonical public issuer. Public metadata contains no health records or credentials.",
+        "description": "MCP OAuth authorization with CIMD, pre-registered clients and dynamic registration; see docs/oauth.mdx. Enabled with a canonical public issuer. Public metadata contains no health records or credentials.",
         "operationId": "oauth_mcp_resource_metadata",
         "summary": "Discover the path-specific MCP resource",
         "responses": {
@@ -237394,7 +237394,7 @@
           "OAuth"
         ],
         "security": [],
-        "description": "MCP OAuth authorization with CIMD, pre-registered clients and dynamic registration; see docs/oauth.md. Enabled with a canonical public issuer. Public metadata contains no health records or credentials.",
+        "description": "MCP OAuth authorization with CIMD, pre-registered clients and dynamic registration; see docs/oauth.mdx. Enabled with a canonical public issuer. Public metadata contains no health records or credentials.",
         "operationId": "oauth_issuer_metadata",
         "summary": "Discover the OAuth issuer",
         "responses": {
@@ -237492,7 +237492,7 @@
           "OAuth"
         ],
         "security": [],
-        "description": "MCP OAuth authorization with CIMD, pre-registered clients and dynamic registration; see docs/oauth.md. Enabled with a canonical public issuer. Public metadata contains no health records or credentials.",
+        "description": "MCP OAuth authorization with CIMD, pre-registered clients and dynamic registration; see docs/oauth.mdx. Enabled with a canonical public issuer. Public metadata contains no health records or credentials.",
         "operationId": "oauth_authorize",
         "summary": "Open the MCP client's authorization and consent page",
         "parameters": [
@@ -237629,7 +237629,7 @@
             "oauthFlowCookie": []
           }
         ],
-        "description": "MCP OAuth authorization with CIMD, pre-registered clients and dynamic registration; see docs/oauth.md. Enabled with a canonical public issuer. Public metadata contains no health records or credentials.",
+        "description": "MCP OAuth authorization with CIMD, pre-registered clients and dynamic registration; see docs/oauth.mdx. Enabled with a canonical public issuer. Public metadata contains no health records or credentials.",
         "operationId": "oauth_connection_request",
         "summary": "Read the current browser's consent request",
         "responses": {

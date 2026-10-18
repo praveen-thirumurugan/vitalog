@@ -1,4 +1,4 @@
-# Publish public MDX guides; Markdown files are repository source documents.
+# Publish MDX guides; exclude repository maintenance files.
 *.md
 # Keep generated verification artifacts and raw contracts out of the public site.
 /*-report.json
