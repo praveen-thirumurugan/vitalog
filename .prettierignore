@@ -1,6 +1,5 @@
 package-lock.json
 src/registry/inventory.json
-docs/specification.md
 contracts/openapi.json
 docs/record-schemas.json
 docs/examples.json

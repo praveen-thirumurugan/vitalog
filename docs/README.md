@@ -16,7 +16,7 @@ Edit `site.json` for branding and navigation. The pinned `@avgeek-oss/mintlify-d
 
 Edit public guides directly in their `.mdx` files. Each guide has one source, with no Markdown copy. `scripts/mintlify.ts` generates only `mcp-tools.mdx`, `openapi.json` and brand assets from the application registry and assets.
 
-After changing a contract, run `npm run docs:generate` and commit the generated artifacts. `npm run docs:check` detects stale output. `.mintignore` keeps repository maintenance notes, the specification and verification reports out of the public site.
+After changing a contract, run `npm run docs:generate` and commit the generated artifacts. `npm run docs:check` detects stale output. `.mintignore` keeps repository maintenance notes and verification reports out of the public site.
 
 ## Hosting
 
