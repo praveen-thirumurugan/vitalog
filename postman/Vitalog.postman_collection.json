@@ -3,7 +3,7 @@
     "_postman_id": "b629dc6d-6637-521b-8796-192d97410f17",
     "name": "Vitalog API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Generated REST and MCP contracts. Synthetic examples; configure the private authKey locally. See postman/README.md."
+    "description": "Generated REST and MCP contracts. Synthetic examples; configure the private authKey locally."
   },
   "auth": {
     "type": "bearer",
