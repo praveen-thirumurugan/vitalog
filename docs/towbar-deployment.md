@@ -8,6 +8,8 @@ Connect your fork or checkout to Towbar and select a server you control. Replace
 
 The API and web manifests use `deployment.type: image` with versioned images from `ghcr.io/avgeek-oss/vitalog-api` and `ghcr.io/avgeek-oss/vitalog-web`. Towbar pulls the published images; it does not build the source on your server. The checked-in v1.0.4 references are candidates pending publication. Before syncing or deploying, replace each tag-only reference with the verified immutable SHA-256 digest from the published v1.0.4 release; keep API and web on the same release version. Runtime resources remain bounded independently of PostgreSQL.
 
+Future releases publish to `ghcr.io/praveen-thirumurugan/vitalog-api` and `ghcr.io/praveen-thirumurugan/vitalog-web`. Existing images under `avgeek-oss` remain available; keep their references when moving the repository without upgrading Vitalog.
+
 Both services use a recreate rollout with a maintenance window. Towbar stops the previous container before starting its replacement, so upgrades do not require an extra CPU reservation for an overlapping candidate. The service is briefly unavailable while its replacement starts and passes readiness checks. On a host with enough spare CPU and memory, the stateless web service can instead use a rolling rollout.
 
 The release workflow builds and tests `linux/amd64` and `linux/arm64` images. Select the platform matching your server; the production manifests use ARM64. The Dockerfiles remain in the repository for CI publication and local development.
@@ -20,7 +22,7 @@ If a new GHCR package is private, make it public and rerun the failed manifest j
 
 ## Choose a release
 
-Publish and verify both images before updating the service manifests. Use the release tag plus its registry digest, for example `ghcr.io/avgeek-oss/vitalog-api:vX.Y.Z@sha256:<published-digest>`, and the corresponding web image from the same release. Do not use `latest` or overwrite a published release tag.
+Publish and verify both images before updating the service manifests. Use the release tag plus its registry digest, for example `ghcr.io/praveen-thirumurugan/vitalog-api:vX.Y.Z@sha256:<published-digest>`, and the corresponding web image from the same release. Do not use `latest` or overwrite a published release tag.
 
 For upgrades, change both image references, sync the repository, then deploy the API before the web app. Runtime secrets and public origins remain installation settings. A new tag or image publication alone does not deploy a running installation.
 

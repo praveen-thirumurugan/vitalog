@@ -10,7 +10,9 @@ const reference = (repository: string) =>
   z
     .string()
     .regex(
-      new RegExp(`^ghcr\\.io/avgeek-oss/${repository}@sha256:[0-9a-f]{64}$`),
+      new RegExp(
+        `^ghcr\\.io/(?:avgeek-oss|praveen-thirumurugan)/${repository}@sha256:[0-9a-f]{64}$`,
+      ),
     );
 export const releaseImages = z
   .object({
@@ -34,7 +36,7 @@ export async function readReleaseImages(path: string): Promise<ReleaseImages> {
 
 async function inspectImage(repository: string, tag: string, commit: string) {
   const auth = await fetch(
-    `https://ghcr.io/token?service=ghcr.io&scope=repository:avgeek-oss/${repository}:pull`,
+    `https://ghcr.io/token?service=ghcr.io&scope=repository:praveen-thirumurugan/${repository}:pull`,
   );
   assert(
     auth.ok,
@@ -43,7 +45,7 @@ async function inspectImage(repository: string, tag: string, commit: string) {
   const { token } = z.object({ token: z.string() }).parse(await auth.json());
   const request = async (path: string) => {
     const response = await fetch(
-      `https://ghcr.io/v2/avgeek-oss/${repository}/${path}`,
+      `https://ghcr.io/v2/praveen-thirumurugan/${repository}/${path}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -109,7 +111,7 @@ async function inspectImage(repository: string, tag: string, commit: string) {
       tag.slice(1),
     );
   }
-  return `ghcr.io/avgeek-oss/${repository}@${index.hash}`;
+  return `ghcr.io/praveen-thirumurugan/${repository}@${index.hash}`;
 }
 
 if (

@@ -77,7 +77,7 @@ for (const [file, route, title, description] of pages) {
       const siteRoute = routes.get(normalized);
       return siteRoute
         ? `](/${siteRoute}${anchor})`
-        : `](https://github.com/avgeek-oss/vitalog/blob/main/${posix.normalize(target.startsWith("docs/") || target.startsWith("apps/") || target.startsWith("scripts/") ? target : `docs/${normalized}`)}${anchor})`;
+        : `](https://github.com/praveen-thirumurugan/vitalog/blob/main/${posix.normalize(target.startsWith("docs/") || target.startsWith("apps/") || target.startsWith("scripts/") ? target : `docs/${normalized}`)}${anchor})`;
     },
   );
   await save(
